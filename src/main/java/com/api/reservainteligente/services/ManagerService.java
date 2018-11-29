@@ -13,6 +13,7 @@ public interface ManagerService {
 	 */
 	Manager findByEmail(String email);
 	
+	
 	/** Busca um Manager por CPF
 	 * 
 	 * @param email
@@ -20,16 +21,27 @@ public interface ManagerService {
 	 */
 	Manager findByCpf(String cpf);
 	
+	
+	/** Busca um Manager por CPF ou Email
+	 * 
+	 * @param email
+	 * @return manager
+	 */
+	Manager findByCpfOrEmail(String cpf, String email);
+	
+	
 	/** Salva um Manager na base de dados
 	 * 
 	 * @param manager
+	 * @return 
 	 */
-	void persist(Manager manager);
+	Manager persist(Manager manager);
+	
 	
 	/** Verifica se o Manager já existe
 	 * 
 	 * @param manager
 	 * @param result
 	 */
-	void isValidManager(String cpf, BindingResult result);
+	void isValidManager(String cpf, String email, BindingResult result);
 }

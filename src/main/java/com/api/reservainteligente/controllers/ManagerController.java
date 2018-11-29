@@ -18,7 +18,7 @@ import com.api.reservainteligente.response.Response;
 import com.api.reservainteligente.services.ManagerService;
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/manager")
 public class ManagerController {
 
 	private static final Logger log = LoggerFactory.getLogger(ManagerController.class);
@@ -37,7 +37,7 @@ public class ManagerController {
 		log.info("Cadastrando novo Manager");
 		Response<ManagerDto> response = new Response<ManagerDto>();
 		
-		managerService.isValidManager(managerDto.getCpf(), result);
+		managerService.isValidManager(managerDto.getCpf(), managerDto.getEmail(), result);
 		
 		if(result.hasErrors()) {
 			log.info("Erro ao salvar Manager com CPF {}", managerDto.getCpf());
@@ -45,7 +45,7 @@ public class ManagerController {
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		Manager manager = managerService.findByCpf(managerDto.getCpf());
+		Manager manager = Manager.getInstace(managerDto);
 		managerService.persist(manager);
 		response.setData(ManagerDto.getInstace(manager));
 		return ResponseEntity.ok(response);

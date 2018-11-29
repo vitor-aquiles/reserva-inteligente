@@ -11,4 +11,6 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer>{
 	Manager findByEmail(String email);
 	
 	Manager findByCpf(String cpf);
+	
+	Manager findByCpfOrEmail(String cpf, String email);
 }

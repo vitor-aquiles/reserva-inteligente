@@ -95,4 +95,12 @@ public class ManagerDto {
 		managerDto.setProfile(manager.getProfile());
 		return managerDto;
 	}
+
+	@Override
+	public String toString() {
+		return "ManagerDto [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", cpf="
+				+ cpf + ", profile=" + profile + "]";
+	}
+	
+	
 }

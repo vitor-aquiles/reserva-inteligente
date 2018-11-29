@@ -5,9 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.api.reservainteligente.dtos.ManagerDto;
@@ -35,6 +39,7 @@ public class Manager implements Serializable{
 	@Column(name = "cpf", nullable = false)
 	private String cpf;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "profile", nullable = false)
 	private ProfileEnum profile;
 
@@ -131,12 +136,14 @@ public class Manager implements Serializable{
 		this.updateDate = updateDate;
 	}
 	
+	@PrePersist
 	public void PrePersist() {
 		final Date actualDate = new Date();
 		registerDate = actualDate;
 		updateDate = actualDate;
 	}
 	
+	@PreUpdate
 	public void PreUpdate() {
 		updateDate = new Date();
 	}
@@ -156,4 +163,11 @@ public class Manager implements Serializable{
 		manager.setProfile(managerDto.getProfile());
 		return manager;
 	}
+
+	@Override
+	public String toString() {
+		return "Manager [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", cpf=" + cpf
+				+ ", profile=" + profile + ", registerDate=" + registerDate + ", updateDate=" + updateDate + "]";
+	}
+	
 }

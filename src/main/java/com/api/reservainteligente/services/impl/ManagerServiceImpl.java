@@ -22,27 +22,36 @@ public class ManagerServiceImpl implements ManagerService{
 	@Override
 	public Manager findByEmail(String email) {
 		log.info("Buscando Manager com Email {}", email);
-		return findByEmail(email);
+		return managerRepository.findByEmail(email);
 	}
 
 	@Override
 	public Manager findByCpf(String cpf) {
 		log.info("Buscando Manager com CPF {}", cpf);
-		return findByCpf(cpf);
+		return managerRepository.findByCpf(cpf);
+	}
+	
+	@Override
+	public Manager findByCpfOrEmail(String cpf, String email) {
+		log.info("Buscando Manager por CPF ou Email");
+		return managerRepository.findByCpfOrEmail(cpf, email);
 	}
 
 	@Override
-	public void persist(Manager manager) {
+	public Manager persist(Manager manager) {
 		log.info("Salvando Manager {}", manager.getName());
-		persist(manager);
+		return managerRepository.save(manager);
 	}
 
 	@Override
-	public void isValidManager(String cpf, BindingResult result) {
-		log.info("Verificando Manager com CPF {}", cpf);
-		Manager manager = findByCpf(cpf);
-		if(manager != null) {
-			result.addError(new ObjectError("manager", "CPF já cadastrado."));
-		}
+	public void isValidManager(String cpf, String email, BindingResult result) {
+		log.info("Verificando Manager com CPF ou Email{}");
+		managerRepository.findByCpfOrEmail(cpf, email);
+		Manager manager = null;
+		/*if(manager == null) {
+			return;
+		}*/
+		result.addError(new ObjectError("manager", "CPF e/ou Email já cadastrado(s)."));
 	}
+
 }
