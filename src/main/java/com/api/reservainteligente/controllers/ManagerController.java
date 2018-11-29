@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,9 @@ public class ManagerController {
 
 	@Autowired
 	private ManagerService managerService;
+
+	@Autowired
+	private ManagerService managerRepository;
 	
 	public ManagerController() {
 	}
@@ -50,5 +54,15 @@ public class ManagerController {
 		response.setData(ManagerDto.getInstace(manager));
 		return ResponseEntity.ok(response);
 	}
+	
+	/*public void isValidManager(String cpf, String email, BindingResult result) {
+		log.info("Verificando Manager com CPF ou Email{}");
+		managerRepository.findByCpfOrEmail(cpf, email);
+		Manager manager = null;
+		if(manager == null) {
+			return;
+		}
+		result.addError(new ObjectError("manager", "CPF e/ou Email já cadastrado(s)."));
+	}*/
 	
 }

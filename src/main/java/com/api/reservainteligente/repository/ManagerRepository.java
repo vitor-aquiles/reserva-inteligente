@@ -1,5 +1,7 @@
 package com.api.reservainteligente.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,9 +10,9 @@ import com.api.reservainteligente.entities.Manager;
 @Transactional(readOnly = true)
 public interface ManagerRepository extends JpaRepository<Manager, Integer>{
 
-	Manager findByEmail(String email);
+	Optional<Manager> findByEmail(String email);
 	
-	Manager findByCpf(String cpf);
+	Optional<Manager> findByCpf(String cpf);
 	
-	Manager findByCpfOrEmail(String cpf, String email);
+	Optional<Manager> findByCpfOrEmail(String cpf, String email);
 }

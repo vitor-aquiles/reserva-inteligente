@@ -1,5 +1,7 @@
 package com.api.reservainteligente.services;
 
+import java.util.Optional;
+
 import org.springframework.validation.BindingResult;
 
 import com.api.reservainteligente.entities.Manager;
@@ -11,7 +13,7 @@ public interface ManagerService {
 	 * @param email
 	 * @return manager
 	 */
-	Manager findByEmail(String email);
+	Optional<Manager> findByEmail(String email);
 	
 	
 	/** Busca um Manager por CPF
@@ -19,7 +21,7 @@ public interface ManagerService {
 	 * @param email
 	 * @return manager
 	 */
-	Manager findByCpf(String cpf);
+	Optional<Manager> findByCpf(String cpf);
 	
 	
 	/** Busca um Manager por CPF ou Email
@@ -27,7 +29,7 @@ public interface ManagerService {
 	 * @param email
 	 * @return manager
 	 */
-	Manager findByCpfOrEmail(String cpf, String email);
+	Optional<Manager> findByCpfOrEmail(String cpf, String email);
 	
 	
 	/** Salva um Manager na base de dados

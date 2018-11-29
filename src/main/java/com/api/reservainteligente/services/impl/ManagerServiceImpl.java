@@ -1,5 +1,7 @@
 package com.api.reservainteligente.services.impl;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +22,19 @@ public class ManagerServiceImpl implements ManagerService{
 	private ManagerRepository managerRepository;
 
 	@Override
-	public Manager findByEmail(String email) {
+	public Optional<Manager> findByEmail(String email) {
 		log.info("Buscando Manager com Email {}", email);
 		return managerRepository.findByEmail(email);
 	}
 
 	@Override
-	public Manager findByCpf(String cpf) {
+	public Optional<Manager> findByCpf(String cpf) {
 		log.info("Buscando Manager com CPF {}", cpf);
 		return managerRepository.findByCpf(cpf);
 	}
 	
 	@Override
-	public Manager findByCpfOrEmail(String cpf, String email) {
+	public Optional<Manager> findByCpfOrEmail(String cpf, String email) {
 		log.info("Buscando Manager por CPF ou Email");
 		return managerRepository.findByCpfOrEmail(cpf, email);
 	}
@@ -46,8 +48,8 @@ public class ManagerServiceImpl implements ManagerService{
 	@Override
 	public void isValidManager(String cpf, String email, BindingResult result) {
 		log.info("Verificando Manager com CPF ou Email{}");
-		managerRepository.findByCpfOrEmail(cpf, email);
-		Manager manager = null;
+		findByCpfOrEmail(cpf, email);
+		
 		/*if(manager == null) {
 			return;
 		}*/
