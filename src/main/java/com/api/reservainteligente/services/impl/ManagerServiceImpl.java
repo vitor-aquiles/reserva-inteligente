@@ -22,6 +22,18 @@ public class ManagerServiceImpl implements ManagerService{
 	private ManagerRepository managerRepository;
 
 	@Override
+	public Manager getManagerById(Long id) {
+		log.info("Buscando Manager");
+		return managerRepository.getManagerById(id);
+	}
+	
+	@Override
+	public Optional<Manager> findById(Long id) {
+		log.info("Buscando Manager com ID {}", id);
+		return managerRepository.findById(id);
+	}
+	
+	@Override
 	public Optional<Manager> findByEmail(String email) {
 		log.info("Buscando Manager com Email {}", email);
 		return managerRepository.findByEmail(email);
@@ -42,11 +54,18 @@ public class ManagerServiceImpl implements ManagerService{
 	@Override
 	public Manager persist(Manager manager) {
 		log.info("Salvando Manager {}", manager.getName());
-		return managerRepository.save(manager);
+		Manager mg = managerRepository.save(manager);
+		return mg;
+	}
+	
+	@Override
+	public void remove(Long id) {
+		log.info("Excluindo Manager de ID {}", id);
+		managerRepository.deleteById(id);
 	}
 
 	@Override
-	public void isValidManager(String cpf, BindingResult result) {
+	public void isValidManagerByCpf(String cpf, BindingResult result) {
 		log.info("Verificando Manager com CPF {}");
 		Optional<Manager> manager = findByCpf(cpf);
 		if(manager.isPresent()) {
@@ -56,6 +75,14 @@ public class ManagerServiceImpl implements ManagerService{
 		/*if(manager == null) {
 			return;
 		}*/
+	}
+
+	@Override
+	public void isNewCpf(Long managerId, String managerToCpf, BindingResult result) {
+		Optional<Manager> manager = managerRepository.findByCpf(managerToCpf);
+		if(manager != null && manager.get().getId() != managerId) {
+			result.addError(new ObjectError("manager", "CPF já cadastrado."));
+		}
 	}
 
 }

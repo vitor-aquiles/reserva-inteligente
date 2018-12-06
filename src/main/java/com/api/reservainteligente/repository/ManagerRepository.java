@@ -8,7 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.api.reservainteligente.entities.Manager;
 
 @Transactional(readOnly = true)
-public interface ManagerRepository extends JpaRepository<Manager, Integer>{
+public interface ManagerRepository extends JpaRepository<Manager, Long>{
+
+	Manager getManagerById(Long id);
+	
+	Optional<Manager> findById(Long id);
 
 	Optional<Manager> findByEmail(String email);
 	

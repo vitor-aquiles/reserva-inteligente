@@ -8,7 +8,21 @@ import com.api.reservainteligente.entities.Manager;
 
 public interface ManagerService {
 	
-	/** Busca um Manager por Email
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Manager getManagerById(Long id);
+	
+	/** Busca um Manager por Id.
+	 * 
+	 * @param id
+	 * @return manager
+	 */
+	Optional<Manager> findById(Long id);
+	
+	/** Busca um Manager por Email.
 	 * 
 	 * @param email
 	 * @return manager
@@ -16,7 +30,7 @@ public interface ManagerService {
 	Optional<Manager> findByEmail(String email);
 	
 	
-	/** Busca um Manager por CPF
+	/** Busca um Manager por CPF.
 	 * 
 	 * @param email
 	 * @return manager
@@ -24,7 +38,7 @@ public interface ManagerService {
 	Optional<Manager> findByCpf(String cpf);
 	
 	
-	/** Busca um Manager por CPF ou Email
+	/** Busca um Manager por CPF ou Email.
 	 * 
 	 * @param email
 	 * @return manager
@@ -32,18 +46,34 @@ public interface ManagerService {
 	Optional<Manager> findByCpfOrEmail(String cpf, String email);
 	
 	
-	/** Salva um Manager na base de dados
+	/** Salva um Manager na base de dados.
 	 * 
 	 * @param manager
 	 * @return 
 	 */
 	Manager persist(Manager manager);
 	
-	
-	/** Verifica se o Manager já existe
+	/** Exclui um Manager da base de dados.
 	 * 
-	 * @param manager
+	 * @param manager 
+	 */
+	void remove(Long id);
+	
+	/** Verifica através de um cpf se o Manager já existe.
+	 * Caso exista, adiciona um Error ao result.
+	 * 
+	 * @param cpf
 	 * @param result
 	 */
-	void isValidManager(String cpf, BindingResult result);
+	void isValidManagerByCpf(String cpf, BindingResult result);
+	
+	/** Verifica no momento do update de um Manager, 
+	 * se o CPF informado já está associado a outro Manager.
+	 * Caso exista, adiciona um Error ao result.
+	 * 
+	 * @param managerId
+	 * @param managerToCpf
+	 * @param result
+	 */
+	void isNewCpf(Long managerId, String managerToCpf, BindingResult result);
 }

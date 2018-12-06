@@ -1,5 +1,7 @@
 package com.api.reservainteligente.controllers;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -8,13 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.reservainteligente.dtos.ManagerDto;
 import com.api.reservainteligente.entities.Manager;
+import com.api.reservainteligente.repository.ManagerRepository;
 import com.api.reservainteligente.response.Response;
 import com.api.reservainteligente.services.ManagerService;
 
@@ -26,13 +32,16 @@ public class ManagerController {
 
 	@Autowired
 	private ManagerService managerService;
-
-	@Autowired
-	private ManagerService managerRepository;
 	
 	public ManagerController() {
 	}
 	
+	/**Action responsável pelo registro de novos Managers
+	 * 
+	 * @param managerDto
+	 * @param result
+	 * @return ResponseEntity<Response<ManagerDto>> 
+	 */
 	@PostMapping
 	public ResponseEntity<Response<ManagerDto>> register(
 			@Valid @RequestBody ManagerDto managerDto, 
@@ -41,7 +50,7 @@ public class ManagerController {
 		log.info("Cadastrando novo Manager");
 		Response<ManagerDto> response = new Response<ManagerDto>();
 		
-		managerService.isValidManager(managerDto.getCpf(), result);
+		managerService.isValidManagerByCpf(managerDto.getCpf(), result);
 		
 		if(result.hasErrors()) {
 			log.info("Erro ao salvar Manager com CPF {}", managerDto.getCpf());
@@ -51,6 +60,65 @@ public class ManagerController {
 		
 		Manager manager = Manager.getInstace(managerDto);
 		managerService.persist(manager);
+		response.getMessages().add("Manager salvo com sucesso");
+		response.setData(ManagerDto.getInstace(manager));
+		return ResponseEntity.ok(response);
+	}
+	
+	/**Action responsável por excluir um Manager
+	 * 
+	 * @param id
+	 * @return ResponseEntity<Response<String>>
+	 */
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Response<String>> exclude(@PathVariable("id") Long id){
+		log.info("Excluindo Manager de ID {}", id);
+		Response<String> response = new Response<String>();
+		Optional<Manager> manager = managerService.findById(id);
+		
+		if(!manager.isPresent()) {
+			log.info("Erro ao excluir Manager de ID {}", id);
+			response.getErrors().add("Manager não encontrado com ID " + id);
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		managerService.remove(id);
+		response.getMessages().add("Manager removido com sucesso.");
+		return ResponseEntity.ok(response);
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Response<ManagerDto>> update(
+			@PathVariable("id") Long id, 
+			@Valid @RequestBody ManagerDto managerDto,
+			BindingResult result){
+		
+		log.info("Atualizando Manager de ID {}", id);
+		Response<ManagerDto> response = new Response<ManagerDto>();
+		Optional<Manager> managerId = managerService.findById(id);
+				
+		if(!managerId.isPresent()) {
+			log.info("Erro ao atualizar Manager");
+			response.getErrors().add("Manager não encontrado com ID " + id);
+			return ResponseEntity.badRequest().body(response); 
+		}
+		
+		managerService.isNewCpf(id, managerDto.getCpf(), result);
+		if (result.hasErrors()) {
+			log.info("Erro ao atualizar Manager");
+			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		managerDto.setId(id);
+		Manager manager = Manager.getInstace(managerDto);
+		//Gambiarra
+		manager.setRegisterDate(managerId.get().getRegisterDate());
+		//Gambiarra
+		manager.setUpdateDate(managerId.get().getUpdateDate());
+		
+		managerService.persist(manager);
+
 		response.setData(ManagerDto.getInstace(manager));
 		return ResponseEntity.ok(response);
 	}

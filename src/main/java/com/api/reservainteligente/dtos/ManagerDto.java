@@ -12,7 +12,7 @@ import com.api.reservainteligente.enums.ProfileEnum;
 
 public class ManagerDto {
 
-	private Integer id;
+	private Long id;
 	
 	@NotEmpty(message = "Nome não pode ser em branco.")
 	@Length(min = 3, max = 200, message = "Nome deve conter de 3 a 200 caracteres.")
@@ -32,11 +32,11 @@ public class ManagerDto {
 	
 	private ProfileEnum profile;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

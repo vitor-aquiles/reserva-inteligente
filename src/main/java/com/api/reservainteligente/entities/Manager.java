@@ -25,7 +25,7 @@ public class Manager implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 	
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -53,7 +53,7 @@ public class Manager implements Serializable{
 	}
 	
 	public Manager(
-			Integer id, 
+			Long id, 
 			String name, 
 			String email, 
 			String password, 
@@ -72,11 +72,11 @@ public class Manager implements Serializable{
 		this.updateDate = updateDate;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -155,7 +155,7 @@ public class Manager implements Serializable{
 	 */
 	public static Manager getInstace(ManagerDto managerDto) {
 		Manager manager = new Manager();
-		manager.setId(managerDto.getId());
+		manager.setId(managerDto.getId()); 
 		manager.setName(managerDto.getName());
 		manager.setCpf(managerDto.getCpf());
 		manager.setEmail(managerDto.getEmail());
