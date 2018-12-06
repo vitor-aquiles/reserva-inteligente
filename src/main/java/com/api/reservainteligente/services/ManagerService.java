@@ -45,5 +45,5 @@ public interface ManagerService {
 	 * @param manager
 	 * @param result
 	 */
-	void isValidManager(String cpf, String email, BindingResult result);
+	void isValidManager(String cpf, BindingResult result);
 }

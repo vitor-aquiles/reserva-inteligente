@@ -41,7 +41,7 @@ public class ManagerController {
 		log.info("Cadastrando novo Manager");
 		Response<ManagerDto> response = new Response<ManagerDto>();
 		
-		managerService.isValidManager(managerDto.getCpf(), managerDto.getEmail(), result);
+		managerService.isValidManager(managerDto.getCpf(), result);
 		
 		if(result.hasErrors()) {
 			log.info("Erro ao salvar Manager com CPF {}", managerDto.getCpf());
@@ -54,15 +54,5 @@ public class ManagerController {
 		response.setData(ManagerDto.getInstace(manager));
 		return ResponseEntity.ok(response);
 	}
-	
-	/*public void isValidManager(String cpf, String email, BindingResult result) {
-		log.info("Verificando Manager com CPF ou Email{}");
-		managerRepository.findByCpfOrEmail(cpf, email);
-		Manager manager = null;
-		if(manager == null) {
-			return;
-		}
-		result.addError(new ObjectError("manager", "CPF e/ou Email já cadastrado(s)."));
-	}*/
 	
 }

@@ -46,14 +46,16 @@ public class ManagerServiceImpl implements ManagerService{
 	}
 
 	@Override
-	public void isValidManager(String cpf, String email, BindingResult result) {
-		log.info("Verificando Manager com CPF ou Email{}");
-		findByCpfOrEmail(cpf, email);
-		
+	public void isValidManager(String cpf, BindingResult result) {
+		log.info("Verificando Manager com CPF {}");
+		Optional<Manager> manager = findByCpf(cpf);
+		if(manager.isPresent()) {
+			result.addError(new ObjectError("manager", "CPF já cadastrado."));
+		}
+		//findByCpfOrEmail(cpf, email);
 		/*if(manager == null) {
 			return;
 		}*/
-		result.addError(new ObjectError("manager", "CPF e/ou Email já cadastrado(s)."));
 	}
 
 }
