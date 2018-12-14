@@ -4,16 +4,10 @@ import java.util.Optional;
 
 import org.springframework.validation.BindingResult;
 
+import com.api.reservainteligente.dtos.ManagerDto;
 import com.api.reservainteligente.entities.Manager;
 
 public interface ManagerService {
-	
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	Manager getManagerById(Long id);
 	
 	/** Busca um Manager por Id.
 	 * 
@@ -59,21 +53,22 @@ public interface ManagerService {
 	 */
 	void remove(Long id);
 	
-	/** Verifica através de um cpf se o Manager já existe.
-	 * Caso exista, adiciona um Error ao result.
+	/** Verifica se os dados enviados na Action de Update são válidos.
+	 * Caso sim, retorna o Manager de ID correspondente.
+	 * 
 	 * 
 	 * @param cpf
 	 * @param result
-	 */
-	void isValidManagerByCpf(String cpf, BindingResult result);
-	
-	/** Verifica no momento do update de um Manager, 
-	 * se o CPF informado já está associado a outro Manager.
-	 * Caso exista, adiciona um Error ao result.
 	 * 
-	 * @param managerId
-	 * @param managerToCpf
+	 * @return Manager
+	 */
+	Manager getInstanceOfManagerWhenUpdate(ManagerDto managerDto, BindingResult result);
+	
+	/**Verifica se o CPF já existe na base de dados.
+	 * 
+	 * @param managerCpf
 	 * @param result
 	 */
-	void isNewCpf(Long managerId, String managerToCpf, BindingResult result);
+	void isNewCpf(Long managerId, String managerCpf, BindingResult result);
+	
 }

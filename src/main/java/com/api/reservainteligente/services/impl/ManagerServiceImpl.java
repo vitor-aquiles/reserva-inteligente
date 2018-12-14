@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
+import com.api.reservainteligente.dtos.ManagerDto;
 import com.api.reservainteligente.entities.Manager;
 import com.api.reservainteligente.repository.ManagerRepository;
 import com.api.reservainteligente.services.ManagerService;
@@ -21,12 +22,6 @@ public class ManagerServiceImpl implements ManagerService{
 	@Autowired
 	private ManagerRepository managerRepository;
 
-	@Override
-	public Manager getManagerById(Long id) {
-		log.info("Buscando Manager");
-		return managerRepository.getManagerById(id);
-	}
-	
 	@Override
 	public Optional<Manager> findById(Long id) {
 		log.info("Buscando Manager com ID {}", id);
@@ -65,24 +60,33 @@ public class ManagerServiceImpl implements ManagerService{
 	}
 
 	@Override
-	public void isValidManagerByCpf(String cpf, BindingResult result) {
-		log.info("Verificando Manager com CPF {}");
-		Optional<Manager> manager = findByCpf(cpf);
-		if(manager.isPresent()) {
+	public Manager getInstanceOfManagerWhenUpdate(ManagerDto managerDto, BindingResult result) {
+		log.info("Validando Manager de ID {}");
+		Manager manager = null;
+		Optional<Manager> managerTarget = managerRepository.findById(managerDto.getId());
+		
+		if (!managerTarget.isPresent()) {
+				result.addError(new ObjectError("manager", "Manager inexistente."));
+		} else if (this.findByCpf(managerDto.getCpf()).isPresent()){
 			result.addError(new ObjectError("manager", "CPF já cadastrado."));
 		}
-		//findByCpfOrEmail(cpf, email);
-		/*if(manager == null) {
-			return;
-		}*/
+		
+		if(!result.hasErrors()) {
+			manager = managerTarget.get();
+			manager.setName(managerDto.getName());
+			manager.setEmail(managerDto.getEmail());
+			manager.setPassword(managerDto.getPassword());
+			manager.setCpf(managerDto.getCpf());
+			manager.setProfile(managerDto.getProfile());
+		}
+		return manager;
 	}
 
 	@Override
 	public void isNewCpf(Long managerId, String managerToCpf, BindingResult result) {
 		Optional<Manager> manager = managerRepository.findByCpf(managerToCpf);
-		if(manager != null && manager.get().getId() != managerId) {
+		if(manager.isPresent()) {
 			result.addError(new ObjectError("manager", "CPF já cadastrado."));
 		}
 	}
-
 }
