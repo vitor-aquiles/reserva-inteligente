@@ -41,7 +41,6 @@ public class Airport implements Serializable{
 	}
 	
 	public Airport(Long id, String name, String city, String state, List<Flight> flights) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.city = city;

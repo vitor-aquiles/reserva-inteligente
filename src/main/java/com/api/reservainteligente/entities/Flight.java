@@ -60,7 +60,6 @@ public class Flight implements Serializable{
 	
 	public Flight(Long id, String cityDestination, String stateDestination, Date departureTime, Date arrivalTime,
 			AirCompany airCompany, Airport airpot, Date registerDate, Date updateDate) {
-		super();
 		this.id = id;
 		this.cityDestination = cityDestination;
 		this.stateDestination = stateDestination;

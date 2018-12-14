@@ -51,7 +51,6 @@ public class AirCompany implements Serializable{
 	
 	public AirCompany(Long id, String companyName, String cnpj, Manager manager, List<Flight> flights,
 			Date registerDate, Date updateDate) {
-		super();
 		this.id = id;
 		this.companyName = companyName;
 		this.cnpj = cnpj;
