@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +18,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "airline")
+@Table(name = "aircompany")
 public class AirCompany implements Serializable{
 
 	private static final long serialVersionUID = 8902680534215815040L;
@@ -31,10 +33,10 @@ public class AirCompany implements Serializable{
 	@Column(name = "cnpj", nullable = false)
 	private String cnpj;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "aircompany")
 	private Manager manager;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "aircompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Flight> flights;
 	
 	@Column(name = "register_date", nullable = false)
@@ -42,6 +44,22 @@ public class AirCompany implements Serializable{
 
 	@Column(name = "update_date", nullable = false)
 	private Date updateDate;
+
+	public AirCompany() {
+	
+	}
+	
+	public AirCompany(Long id, String companyName, String cnpj, Manager manager, List<Flight> flights,
+			Date registerDate, Date updateDate) {
+		super();
+		this.id = id;
+		this.companyName = companyName;
+		this.cnpj = cnpj;
+		this.manager = manager;
+		this.flights = flights;
+		this.registerDate = registerDate;
+		this.updateDate = updateDate;
+	}
 
 	public Long getId() {
 		return id;

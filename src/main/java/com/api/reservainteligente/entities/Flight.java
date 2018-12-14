@@ -5,13 +5,17 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "flight")
@@ -30,16 +34,18 @@ public class Flight implements Serializable{
 	@Column(name = "state_destination", nullable = false)
 	private String stateDestination;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "departure_time", nullable = false)
 	private Date departureTime;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "arrival_time", nullable = false)
 	private Date arrivalTime;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private AirCompany airCompany;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Airport airpot;
 	
 	@Column(name = "register_date", nullable = false)
@@ -47,6 +53,24 @@ public class Flight implements Serializable{
 
 	@Column(name = "update_date", nullable = false)
 	private Date updateDate;
+	
+	public Flight() {
+	
+	}
+	
+	public Flight(Long id, String cityDestination, String stateDestination, Date departureTime, Date arrivalTime,
+			AirCompany airCompany, Airport airpot, Date registerDate, Date updateDate) {
+		super();
+		this.id = id;
+		this.cityDestination = cityDestination;
+		this.stateDestination = stateDestination;
+		this.departureTime = departureTime;
+		this.arrivalTime = arrivalTime;
+		this.airCompany = airCompany;
+		this.airpot = airpot;
+		this.registerDate = registerDate;
+		this.updateDate = updateDate;
+	}
 
 	public Long getId() {
 		return id;

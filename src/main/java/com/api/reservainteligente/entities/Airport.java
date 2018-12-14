@@ -3,8 +3,10 @@ package com.api.reservainteligente.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,8 +33,21 @@ public class Airport implements Serializable{
 	@Column(name = "state", nullable = false)
 	private String state;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "airport", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Flight> flights;
+
+	public Airport() {
+	
+	}
+	
+	public Airport(Long id, String name, String city, String state, List<Flight> flights) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.city = city;
+		this.state = state;
+		this.flights = flights;
+	}
 
 	public Long getId() {
 		return id;
