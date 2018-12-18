@@ -34,6 +34,7 @@ public class Airport implements Serializable{
 	private String state;
 	
 	@OneToMany(mappedBy = "airport", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Column(nullable = false)
 	private List<Flight> flights;
 
 	public Airport() {

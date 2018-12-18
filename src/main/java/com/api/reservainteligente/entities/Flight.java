@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -42,11 +41,11 @@ public class Flight implements Serializable{
 	@Column(name = "arrival_time", nullable = false)
 	private Date arrivalTime;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	private AirCompany airCompany;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	private Airport airpot;
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	private Airport airport;
 	
 	@Column(name = "register_date", nullable = false)
 	private Date registerDate;
@@ -59,14 +58,14 @@ public class Flight implements Serializable{
 	}
 	
 	public Flight(Long id, String cityDestination, String stateDestination, Date departureTime, Date arrivalTime,
-			AirCompany airCompany, Airport airpot, Date registerDate, Date updateDate) {
+			AirCompany airCompany, Airport airport, Date registerDate, Date updateDate) {
 		this.id = id;
 		this.cityDestination = cityDestination;
 		this.stateDestination = stateDestination;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
 		this.airCompany = airCompany;
-		this.airpot = airpot;
+		this.airport = airport;
 		this.registerDate = registerDate;
 		this.updateDate = updateDate;
 	}
@@ -120,11 +119,11 @@ public class Flight implements Serializable{
 	}
 
 	public Airport getAirpot() {
-		return airpot;
+		return airport;
 	}
 
-	public void setAirpot(Airport airpot) {
-		this.airpot = airpot;
+	public void setAirpot(Airport airport) {
+		this.airport = airport;
 	}
 	
 	public Date getRegisterDate() {

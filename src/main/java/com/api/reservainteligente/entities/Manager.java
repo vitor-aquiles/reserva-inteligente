@@ -7,9 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -43,6 +45,9 @@ public class Manager implements Serializable{
 	@Enumerated(EnumType.STRING)
 	@Column(name = "profile", nullable = false)
 	private ProfileEnum profile;
+	
+	@OneToOne(fetch = FetchType.EAGER, optional = false)
+	private AirCompany airCompany;
 
 	@Column(name = "register_date", nullable = false)
 	private Date registerDate;

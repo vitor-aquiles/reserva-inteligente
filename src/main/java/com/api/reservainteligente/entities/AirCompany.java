@@ -33,10 +33,10 @@ public class AirCompany implements Serializable{
 	@Column(name = "cnpj", nullable = false)
 	private String cnpj;
 	
-	@OneToOne(mappedBy = "aircompany")
+	@OneToOne(mappedBy = "airCompany")
 	private Manager manager;
 	
-	@OneToMany(mappedBy = "aircompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Flight> flights;
 	
 	@Column(name = "register_date", nullable = false)
