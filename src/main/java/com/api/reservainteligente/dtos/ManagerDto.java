@@ -32,6 +32,8 @@ public class ManagerDto {
 	
 	private ProfileEnum profile;
 
+	private Long idAirCompany;
+	
 	public Long getId() {
 		return id;
 	}
@@ -80,7 +82,15 @@ public class ManagerDto {
 		this.profile = profile;
 	}
 
-	/** Retorna um DTO com os dado de uma Manager
+	public Long getIdAirCompany() {
+		return idAirCompany;
+	}
+
+	public void setIdAirCompany(Long idAirCompany) {
+		this.idAirCompany = idAirCompany;
+	}
+
+	/** Retorna um DTO com os dado de um Manager
 	 * 
 	 * @param manager
 	 * @return managerDto
@@ -93,14 +103,14 @@ public class ManagerDto {
 		managerDto.setEmail(manager.getEmail());
 		managerDto.setPassword(manager.getPassword());
 		managerDto.setProfile(manager.getProfile());
+		managerDto.setIdAirCompany(manager.getAirCompany().getId());
 		return managerDto;
 	}
 
 	@Override
 	public String toString() {
 		return "ManagerDto [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", cpf="
-				+ cpf + ", profile=" + profile + "]";
+				+ cpf + ", profile=" + profile + ", idAirCompany=" + idAirCompany + "]";
 	}
-	
-	
+
 }

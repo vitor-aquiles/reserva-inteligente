@@ -48,7 +48,7 @@ public class ManagerController {
 		log.info("Cadastrando novo Manager");
 		Response<ManagerDto> response = new Response<ManagerDto>();
 		
-		managerService.isNewCpf(managerDto.getId(), managerDto.getCpf(), result);
+		managerService.isNewCpf(managerDto.getCpf(), result);
 		
 		if(result.hasErrors()) {
 			log.info("Erro ao salvar Manager com CPF {}", managerDto.getCpf());

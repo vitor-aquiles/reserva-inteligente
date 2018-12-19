@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.api.reservainteligente.dtos.AirportDto;
+
 @Entity
 @Table(name = "airport")
 public class Airport implements Serializable{
@@ -34,7 +36,6 @@ public class Airport implements Serializable{
 	private String state;
 	
 	@OneToMany(mappedBy = "airport", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@Column(nullable = false)
 	private List<Flight> flights;
 
 	public Airport() {
@@ -87,6 +88,15 @@ public class Airport implements Serializable{
 
 	public void setFlights(List<Flight> flights) {
 		this.flights = flights;
+	}
+	
+	public static Airport getInstance(AirportDto airportDto) {
+		Airport airport = new Airport();
+		airport.setId(airportDto.getId());
+		airport.setName(airportDto.getName());
+		airport.setCity(airportDto.getCity());
+		airport.setState(airportDto.getState());
+		return airport;
 	}
 
 	@Override

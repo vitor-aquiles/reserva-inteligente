@@ -1,6 +1,7 @@
 package com.api.reservainteligente.entities;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,6 +16,9 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.api.reservainteligente.dtos.FlightDto;
+import com.api.reservainteligente.utils.DateUtils;
 
 @Entity
 @Table(name = "flight")
@@ -118,11 +122,11 @@ public class Flight implements Serializable{
 		this.airCompany = airCompany;
 	}
 
-	public Airport getAirpot() {
+	public Airport getAirport() {
 		return airport;
 	}
 
-	public void setAirpot(Airport airport) {
+	public void setAirport(Airport airport) {
 		this.airport = airport;
 	}
 	
@@ -154,6 +158,18 @@ public class Flight implements Serializable{
 		updateDate = new Date();
 	}
 
+	public static Flight getInstance(FlightDto flightDto) throws ParseException {
+		Flight flight = new Flight();
+		flight.setId(flightDto.getId());
+		flight.setCityDestination(flightDto.getCityDestination());
+		flight.setStateDestination(flightDto.getStateDestination());
+		flight.setDepartureTime(DateUtils.dateFormat.parse(flightDto.getDepartureTime()));
+		flight.setArrivalTime(DateUtils.dateFormat.parse(flightDto.getArrivalTime()));
+		flight.getAirCompany().setId(flightDto.getIdAirCompany());
+		flight.getAirport().setId(flightDto.getIdAirport());
+		return flight;
+	}
+	
 	@Override
 	public String toString() {
 		return "Flight [id=" + id + ", cityDestination=" + cityDestination + ", stateDestination=" + stateDestination

@@ -17,6 +17,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.api.reservainteligente.dtos.AirCompanyDto;
+
 @Entity
 @Table(name = "aircompany")
 public class AirCompany implements Serializable{
@@ -33,7 +35,7 @@ public class AirCompany implements Serializable{
 	@Column(name = "cnpj", nullable = false)
 	private String cnpj;
 	
-	@OneToOne(mappedBy = "airCompany")
+	@OneToOne(mappedBy = "airCompany", optional = true)
 	private Manager manager;
 	
 	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -127,10 +129,20 @@ public class AirCompany implements Serializable{
 	public void PreUpdate() {
 		updateDate = new Date();
 	}
+	
+	public static AirCompany getInstance(AirCompanyDto airCompanyDto) {
+		AirCompany airCompany = new AirCompany();
+		airCompany.setId(airCompanyDto.getId());
+		airCompany.setCompanyName(airCompanyDto.getCompanyName());
+		airCompany.setCnpj(airCompanyDto.getCnpj());
+		return airCompany;
+	}
 
 	@Override
 	public String toString() {
-		return "Airline [id=" + id + ", companyName=" + companyName + ", cnpj=" + cnpj + ", manager=" + manager
-				+ ", registerDate=" + registerDate + ", updateDate=" + updateDate + "]";
+		return "AirCompany [id=" + id + ", companyName=" + companyName + ", cnpj=" + cnpj + ", manager=" + manager
+				+ ", flights=" + flights + ", registerDate=" + registerDate + ", updateDate=" + updateDate + "]";
 	}
+
+	
 }

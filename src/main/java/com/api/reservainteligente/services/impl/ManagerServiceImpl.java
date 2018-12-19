@@ -78,12 +78,13 @@ public class ManagerServiceImpl implements ManagerService{
 			manager.setPassword(managerDto.getPassword());
 			manager.setCpf(managerDto.getCpf());
 			manager.setProfile(managerDto.getProfile());
+			manager.getAirCompany().setId(managerDto.getIdAirCompany());
 		}
 		return manager;
 	}
 
 	@Override
-	public void isNewCpf(Long managerId, String managerToCpf, BindingResult result) {
+	public void isNewCpf(String managerToCpf, BindingResult result) {
 		Optional<Manager> manager = managerRepository.findByCpf(managerToCpf);
 		if(manager.isPresent()) {
 			result.addError(new ObjectError("manager", "CPF já cadastrado."));

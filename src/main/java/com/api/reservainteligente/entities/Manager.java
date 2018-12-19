@@ -126,6 +126,14 @@ public class Manager implements Serializable{
 		this.profile = profile;
 	}
 	
+	public AirCompany getAirCompany() {
+		return airCompany;
+	}
+
+	public void setAirCompany(AirCompany airCompany) {
+		this.airCompany = airCompany;
+	}
+	
 	public Date getRegisterDate() {
 		return registerDate;
 	}
@@ -167,13 +175,17 @@ public class Manager implements Serializable{
 		manager.setEmail(managerDto.getEmail());
 		manager.setPassword(managerDto.getPassword());
 		manager.setProfile(managerDto.getProfile());
+		manager.getAirCompany().setId(managerDto.getIdAirCompany());
 		return manager;
 	}
 
 	@Override
 	public String toString() {
 		return "Manager [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", cpf=" + cpf
-				+ ", profile=" + profile + ", registerDate=" + registerDate + ", updateDate=" + updateDate + "]";
+				+ ", profile=" + profile + ", airCompany=" + airCompany + ", registerDate=" + registerDate
+				+ ", updateDate=" + updateDate + "]";
 	}
+
+	
 	
 }
