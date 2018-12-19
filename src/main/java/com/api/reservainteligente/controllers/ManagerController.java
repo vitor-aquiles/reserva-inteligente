@@ -59,7 +59,7 @@ public class ManagerController {
 		Manager manager = Manager.getInstace(managerDto);
 		managerService.persist(manager);
 		response.getMessages().add("Manager salvo com sucesso");
-		response.setData(ManagerDto.getInstace(manager));
+		response.setData(ManagerDto.getInstance(manager));
 		return ResponseEntity.ok(response);
 	}
 	
@@ -110,7 +110,7 @@ public class ManagerController {
 		}
 		
 		managerService.persist(manager);
-		response.setData(ManagerDto.getInstace(manager));
+		response.setData(ManagerDto.getInstance(manager));
 		return ResponseEntity.ok(response);
 	}
 	

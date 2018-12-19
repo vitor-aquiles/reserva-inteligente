@@ -95,7 +95,7 @@ public class ManagerDto {
 	 * @param manager
 	 * @return managerDto
 	 */
-	public static ManagerDto getInstace(Manager manager) {
+	public static ManagerDto getInstance(Manager manager) {
 		ManagerDto managerDto = new ManagerDto();
 		managerDto.setId(manager.getId());
 		managerDto.setName(manager.getName());
