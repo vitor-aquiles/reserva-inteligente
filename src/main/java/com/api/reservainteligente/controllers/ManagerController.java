@@ -63,7 +63,7 @@ public class ManagerController {
 		}
 		
 		Manager manager = Manager.getInstance(managerDto);
-		validAirCompany.ifPresent(airCompany -> manager.setAirCompany(airCompany));
+		//validAirCompany.ifPresent(airCompany -> manager.setAirCompany(airCompany));
 		managerService.persist(manager);
 		response.getMessages().add("Manager salvo com sucesso");
 		response.setData(ManagerDto.getInstance(manager));

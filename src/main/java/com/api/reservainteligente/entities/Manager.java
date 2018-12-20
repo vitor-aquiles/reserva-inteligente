@@ -176,6 +176,8 @@ public class Manager implements Serializable{
 		manager.setEmail(managerDto.getEmail());
 		manager.setPassword(managerDto.getPassword());
 		manager.setProfile(managerDto.getProfile());
+		manager.setAirCompany(new AirCompany());
+		manager.getAirCompany().setId(managerDto.getIdAirCompany());
 		return manager;
 	}
 
