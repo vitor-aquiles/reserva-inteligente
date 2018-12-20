@@ -69,6 +69,6 @@ public interface ManagerService {
 	 * @param managerCpf
 	 * @param result
 	 */
-	void isNewCpf(String managerCpf, BindingResult result);
-	
+	void isNewCpf(Long managerId, String managerCpf, BindingResult result);
+
 }

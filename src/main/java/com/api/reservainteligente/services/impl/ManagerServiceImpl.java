@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import com.api.reservainteligente.dtos.ManagerDto;
+import com.api.reservainteligente.entities.AirCompany;
 import com.api.reservainteligente.entities.Manager;
 import com.api.reservainteligente.repository.ManagerRepository;
 import com.api.reservainteligente.services.ManagerService;
@@ -64,13 +65,11 @@ public class ManagerServiceImpl implements ManagerService{
 		log.info("Validando Manager de ID {}");
 		Manager manager = null;
 		Optional<Manager> managerTarget = managerRepository.findById(managerDto.getId());
+		isNewCpf(managerDto.getId(), managerDto.getCpf(), result);
 		
 		if (!managerTarget.isPresent()) {
 				result.addError(new ObjectError("manager", "Manager inexistente."));
-		} else if (this.findByCpf(managerDto.getCpf()).isPresent()){
-			result.addError(new ObjectError("manager", "CPF já cadastrado."));
-		}
-		
+		}		
 		if(!result.hasErrors()) {
 			manager = managerTarget.get();
 			manager.setName(managerDto.getName());
@@ -78,16 +77,17 @@ public class ManagerServiceImpl implements ManagerService{
 			manager.setPassword(managerDto.getPassword());
 			manager.setCpf(managerDto.getCpf());
 			manager.setProfile(managerDto.getProfile());
+			manager.setAirCompany(new AirCompany());
 			manager.getAirCompany().setId(managerDto.getIdAirCompany());
 		}
 		return manager;
 	}
 
 	@Override
-	public void isNewCpf(String managerToCpf, BindingResult result) {
-		Optional<Manager> manager = managerRepository.findByCpf(managerToCpf);
-		if(manager.isPresent()) {
-			result.addError(new ObjectError("manager", "CPF já cadastrado."));
+	public void isNewCpf(Long managerId, String managerCpf, BindingResult result) {
+		Optional<Manager> manager = managerRepository.findByCpf(managerCpf);
+		if(manager.isPresent() && manager.get().getId() != managerId) {
+			result.addError(new ObjectError("airCompany", "CPF já cadastrado."));
 		}
 	}
 }

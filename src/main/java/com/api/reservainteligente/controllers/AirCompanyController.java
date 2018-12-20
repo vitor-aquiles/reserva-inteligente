@@ -12,18 +12,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.reservainteligente.dtos.AirCompanyDto;
 import com.api.reservainteligente.entities.AirCompany;
-import com.api.reservainteligente.entities.Manager;
 import com.api.reservainteligente.response.Response;
 import com.api.reservainteligente.services.AirCompanyService;
 
 @RestController
-@RequestMapping(value = "/aircompany")
+@RequestMapping(value = "/api/aircompany")
 public class AirCompanyController {
 
 	private static final Logger log = LoggerFactory.getLogger(ManagerController.class);
@@ -48,7 +48,7 @@ public class AirCompanyController {
 		log.info("Cadastrando nova AirCompany");
 		Response<AirCompanyDto> response = new Response<AirCompanyDto>();
 		
-		airCompanyService.isNewCnpj(airCompanyDto.getCnpj(), result);
+		airCompanyService.isNewCnpj(airCompanyDto.getId(), airCompanyDto.getCnpj(), result);
 		
 		if(result.hasErrors()) {
 			log.info("Erro ao salvar AirCompany com CNPJ {}", airCompanyDto.getCnpj());
@@ -82,6 +82,35 @@ public class AirCompanyController {
 
 		airCompanyService.remove(id);
 		response.getMessages().add("AirCompany removida com sucesso.");
+		return ResponseEntity.ok(response);
+	}
+	
+	/**Action responsável por alterar uma Air Company
+	 * 
+	 * @param id
+	 * @param airCompanyDto
+	 * @param result
+	 * @return ResponseEntity<Response<AirCompanyDto>>
+	 */
+	@PutMapping(value = "/{airCompanyId}")
+	public ResponseEntity<Response<AirCompanyDto>> update(
+			@PathVariable("airCompanyId") Long airCompanyId, 
+			@Valid @RequestBody AirCompanyDto airCompanyDto,
+			BindingResult result){
+		
+		log.info("Atualizando Air Company de ID {}", airCompanyId);
+		Response<AirCompanyDto> response = new Response<AirCompanyDto>();
+		airCompanyDto.setId(airCompanyId);
+		AirCompany airCompany = airCompanyService.getInstanceOfAirCompanyWhenUpdate(airCompanyDto, result);
+				
+		if (airCompany == null) {
+			log.info("Erro ao atualizar Air Company");
+			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		airCompanyService.persist(airCompany);
+		response.setData(AirCompanyDto.getInstance(airCompany));
 		return ResponseEntity.ok(response);
 	}
 }

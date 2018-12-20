@@ -2,6 +2,8 @@ package com.api.reservainteligente.dtos;
 
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+
 import com.api.reservainteligente.entities.AirCompany;
 
 public class AirCompanyDto {
@@ -12,6 +14,7 @@ public class AirCompanyDto {
 	private String companyName;
 	
 	@NotBlank(message = "CNPJ cannot be blank.")
+	@CNPJ(message = "CNPJ inválido.")
 	private String cnpj;
 
 	public Long getId() {

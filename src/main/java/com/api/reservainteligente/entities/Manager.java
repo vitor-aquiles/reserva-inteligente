@@ -57,7 +57,7 @@ public class Manager implements Serializable{
 	
 	public Manager() {
 	}
-	
+
 	public Manager(
 			Long id, 
 			String name, 
@@ -65,15 +65,16 @@ public class Manager implements Serializable{
 			String password, 
 			String cpf, 
 			ProfileEnum profile,
+			AirCompany airCompany, 
 			Date registerDate, 
 			Date updateDate) {
-		
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.cpf = cpf;
 		this.profile = profile;
+		this.airCompany = airCompany;
 		this.registerDate = registerDate;
 		this.updateDate = updateDate;
 	}
@@ -167,7 +168,7 @@ public class Manager implements Serializable{
 	 * @param manager
 	 * @return managerDto
 	 */
-	public static Manager getInstace(ManagerDto managerDto) {
+	public static Manager getInstance(ManagerDto managerDto) {
 		Manager manager = new Manager();
 		manager.setId(managerDto.getId()); 
 		manager.setName(managerDto.getName());
@@ -175,7 +176,6 @@ public class Manager implements Serializable{
 		manager.setEmail(managerDto.getEmail());
 		manager.setPassword(managerDto.getPassword());
 		manager.setProfile(managerDto.getProfile());
-		manager.getAirCompany().setId(managerDto.getIdAirCompany());
 		return manager;
 	}
 

@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.reservainteligente.dtos.ManagerDto;
+import com.api.reservainteligente.entities.AirCompany;
 import com.api.reservainteligente.entities.Manager;
 import com.api.reservainteligente.response.Response;
+import com.api.reservainteligente.services.AirCompanyService;
 import com.api.reservainteligente.services.ManagerService;
 
 @RestController
@@ -30,6 +32,9 @@ public class ManagerController {
 
 	@Autowired
 	private ManagerService managerService;
+
+	@Autowired
+	private AirCompanyService airCompanyService;
 	
 	public ManagerController() {
 	}
@@ -48,7 +53,8 @@ public class ManagerController {
 		log.info("Cadastrando novo Manager");
 		Response<ManagerDto> response = new Response<ManagerDto>();
 		
-		managerService.isNewCpf(managerDto.getCpf(), result);
+		managerService.isNewCpf(managerDto.getId(),managerDto.getCpf(), result);
+		Optional<AirCompany> validAirCompany = airCompanyService.isValidAirCompany(managerDto.getIdAirCompany(), result);
 		
 		if(result.hasErrors()) {
 			log.info("Erro ao salvar Manager com CPF {}", managerDto.getCpf());
@@ -56,7 +62,8 @@ public class ManagerController {
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		Manager manager = Manager.getInstace(managerDto);
+		Manager manager = Manager.getInstance(managerDto);
+		validAirCompany.ifPresent(airCompany -> manager.setAirCompany(airCompany));
 		managerService.persist(manager);
 		response.getMessages().add("Manager salvo com sucesso");
 		response.setData(ManagerDto.getInstance(manager));
