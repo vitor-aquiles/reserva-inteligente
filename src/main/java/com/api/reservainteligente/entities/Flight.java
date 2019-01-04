@@ -47,7 +47,7 @@ public class Flight implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	private AirCompany airCompany;
-	
+		
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	private Airport airport;
 	

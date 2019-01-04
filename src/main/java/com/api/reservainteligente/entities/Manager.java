@@ -26,7 +26,7 @@ public class Manager implements Serializable{
 	private static final long serialVersionUID = -2030406248745593718L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	
@@ -176,8 +176,8 @@ public class Manager implements Serializable{
 		manager.setEmail(managerDto.getEmail());
 		manager.setPassword(managerDto.getPassword());
 		manager.setProfile(managerDto.getProfile());
-		manager.setAirCompany(new AirCompany());
-		manager.getAirCompany().setId(managerDto.getIdAirCompany());
+		//manager.setAirCompany(new AirCompany());
+		//manager.getAirCompany().setId(managerDto.getIdAirCompany());
 		return manager;
 	}
 

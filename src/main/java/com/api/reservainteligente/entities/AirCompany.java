@@ -26,7 +26,7 @@ public class AirCompany implements Serializable{
 	private static final long serialVersionUID = 8902680534215815040L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "company_name", nullable = false)
@@ -35,7 +35,7 @@ public class AirCompany implements Serializable{
 	@Column(name = "cnpj", nullable = false)
 	private String cnpj;
 	
-	@OneToOne(mappedBy = "airCompany", optional = true)
+	@OneToOne(mappedBy = "airCompany")//, optional = true
 	private Manager manager;
 	
 	@OneToMany(mappedBy = "airCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -143,6 +143,6 @@ public class AirCompany implements Serializable{
 		return "AirCompany [id=" + id + ", companyName=" + companyName + ", cnpj=" + cnpj + ", manager=" + manager
 				+ ", flights=" + flights + ", registerDate=" + registerDate + ", updateDate=" + updateDate + "]";
 	}
-
+	
 	
 }

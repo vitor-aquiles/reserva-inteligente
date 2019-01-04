@@ -55,6 +55,7 @@ public class ManagerController {
 		
 		managerService.isNewCpf(managerDto.getId(),managerDto.getCpf(), result);
 		Optional<AirCompany> validAirCompany = airCompanyService.isValidAirCompany(managerDto.getIdAirCompany(), result);
+		//airCompanyService.isValidAirCompany(managerDto.getIdAirCompany(), result);
 		
 		if(result.hasErrors()) {
 			log.info("Erro ao salvar Manager com CPF {}", managerDto.getCpf());
@@ -63,7 +64,7 @@ public class ManagerController {
 		}
 		
 		Manager manager = Manager.getInstance(managerDto);
-		//validAirCompany.ifPresent(airCompany -> manager.setAirCompany(airCompany));
+		validAirCompany.ifPresent(airCompany -> manager.setAirCompany(airCompany));
 		managerService.persist(manager);
 		response.getMessages().add("Manager salvo com sucesso");
 		response.setData(ManagerDto.getInstance(manager));
