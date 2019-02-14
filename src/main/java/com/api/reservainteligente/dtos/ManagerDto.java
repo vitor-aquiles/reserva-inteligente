@@ -30,8 +30,10 @@ public class ManagerDto {
 	@CPF(message = "CPF inválido.")
 	private String cpf;
 	
+	@NotEmpty(message = "Profile não pode ser em branco.")
 	private ProfileEnum profile;
 
+	@NotEmpty(message = "AirCompany não pode ser em branco.")
 	private Long idAirCompany;
 	
 	public Long getId() {
