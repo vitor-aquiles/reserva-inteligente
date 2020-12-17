@@ -1,4 +1,4 @@
-# Reserva Inteligente - Em desenvolvimento
+# Reserva Inteligente (Em desenvolvimento)
 API Rest que realiza reservas de passagens aéreas.
 
 ### Detalhes da API
